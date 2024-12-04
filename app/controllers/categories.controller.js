@@ -4,7 +4,6 @@ const { check, validationResult } = require('express-validator')
 module.exports = {
     deleteAll: deleteAll,
     showCategories: showCategories,
-    seedCategories: seedCategories,
     showCreate: showCreate,
     processCreateCategory: processCreateCategory,
     deleteCategory: deleteCategory,
@@ -59,43 +58,10 @@ async function processEditCategory(req, res) {
     }
 }
 
-async function seedCategories(req, res) {
-    const categories = [
-        { name: 'Tech', entries: [
-            {label: "Tesla", apiQuery: "Tesla Inc AND automotive"},
-            {label: "Apple", apiQuery: "Apple Inc AND technology"},
-            {label: "Microsoft", apiQuery: "Microsoft Corporation AND technology"},
-        ] },
-        { name: 'Business', entries: [
-            {label: "Wall Street", apiQuery: "Wall Street AND finance"},
-            {label: "Stocks", apiQuery: "stock market AND trading"},
-            {label: "Bitcoin", apiQuery: "Bitcoin AND cryptocurrency"}
-        ] },
-        { name: 'World', entries: [
-            {label: "Politics", apiQuery: "politics"},
-            {label: "Conflicts", apiQuery: "conflicts"},
-            {label: "Protests", apiQuery: "protests"},
-        ] }
-    ]
-
-    try {
-        await Category.deleteMany({})
-
-        for (category of categories) {
-            let newCategory = new Category(category)
-            await newCategory.save()
-        }
-    } catch (err) {
-        console.log(err)
-    }
-
-    res.redirect('/categories')
-}
-
 async function showCategories(req, res) {
     // get all categories
     try {
-        categories = await Category.find({})
+        categories = await Category.find({ user: req.session.user.username })
 
         // return a view with data
         res.render('pages/categories', {
@@ -128,6 +94,7 @@ async function processCreateCategory(req, res) {
     // create a new category
     const category = new Category({
         name: req.body.name,
+        user: req.session.user.username,
         entries: []
     })
 
@@ -155,7 +122,6 @@ async function viewCategory(req, res) {
     }
 }
 
-     
 async function deleteCategory(req, res) {
     try {
         await Category.deleteOne({ slug: req.params.slug })

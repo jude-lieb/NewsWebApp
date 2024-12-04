@@ -32,8 +32,8 @@ async function processCreateEntry(req, res) {
     }
 
     try {
-        await Category.updateOne({ slug: req.params.slug },  { $push: { entries: entry } } )
-        req.flash('success', 'Successfully created entry!')
+        await Category.updateOne({ slug: req.params.slug }, { $push: { entries: entry } } )
+        req.flash('success', 'Successfuly created entry!')
         res.redirect('/categories/' + req.params.slug + '/view', )
     } catch {
         res.status(500)
@@ -82,7 +82,7 @@ async function processEditEntry(req, res) {
 async function deleteEntry(req, res) {
     try {
         await Category.updateOne(
-            { slug: req.params.slug }, // Find the category
+            { user: req.session.user.username, slug: req.params.slug }, // Find the category
             { $pull: { entries: { _id: req.params._id } } } //Remove entry
         )
         
