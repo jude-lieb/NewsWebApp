@@ -62,8 +62,9 @@ async function processEditCategory(req, res) {
 async function seedCategories(req, res) {
     const categories = [
         { name: 'Tech', entries: [
-            {label: "Apple", apiQuery: "apple iphone ipad mac"},
-            {label: "Tesla", apiQuery: "tesla car"}
+            {label: "Tesla", apiQuery: "Tesla Inc AND automotive"},
+            {label: "Apple", apiQuery: "Apple Inc AND technology"},
+            {label: "Microsoft", apiQuery: "Microsoft Corporation AND technology"},
         ] },
         { name: 'Business', entries: [
             {label: "Wall Street", apiQuery: "Wall Street AND finance"},
@@ -74,7 +75,6 @@ async function seedCategories(req, res) {
             {label: "Politics", apiQuery: "politics"},
             {label: "Conflicts", apiQuery: "conflicts"},
             {label: "Protests", apiQuery: "protests"},
-            {label: "suprise Me!", apiQuery: "conflict OR war OR dispute"}
         ] }
     ]
 
@@ -138,7 +138,7 @@ async function processCreateCategory(req, res) {
     // save
     try {
         await category.save()
-        req.flash('success', 'Successfuly created category!')
+        req.flash('success', 'Successfully created category!')
         res.redirect('/categories')
     } catch {
         res.status(500)
