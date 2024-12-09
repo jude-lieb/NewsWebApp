@@ -69,7 +69,7 @@ async function fetchArticles(query) {
 function createNewsCard(article) {
     const title = article.title && article.title !== '[Removed]' ? truncateText(article.title, 100) : null;
     const description = article.description && article.description !== '[Removed]' ? article.description : null;
-    const image_url = article.image_url && (article.image_url !== null || article.image_url !== '[Article Image]' ? article.image_url : '/test.png');
+    const image_url = article.image_url && (article.image_url !== null || article.image_url !== '[Article Image]' ? article.image_url : '/public/test.png');
     const link = article.link ? article.link : null;
     const pubDate = article.pubDate ? new Date(article.pubDate).toLocaleDateString() : "Date not available";
     const source_icon = article.source_icon ? article.source_icon : '/public/test.png'; // Fallback to a placeholder icon
