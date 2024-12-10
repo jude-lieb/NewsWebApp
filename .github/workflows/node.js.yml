@@ -20,7 +20,7 @@ jobs:
         image: mongo:6.0
         ports:
           - 27017:27017
-        options: --quiet --noauth --bind_ip 0.0.0.0
+        options: --quiet --bind_ip 0.0.0.0
 
     steps:
     - uses: actions/checkout@v4
